@@ -16,7 +16,8 @@ app.use(cors());
 app.get('/', (req,res) =>{
     res.send('API');
 });
-
+const ruta_citas = require('./libs/citas/routes/Citas');
+app.use(ruta_citas);
 //routes
 
 //Port
