@@ -11,7 +11,7 @@ class CitasDAO {
  * @returns
  */
 async consultarCitas()  {    
-    let sql = `SELECT id_cita, nombre_cliente, veterinario, descripcion
+    let sql = `SELECT id_cita, id_paciente, id_prestadorservicios, descripcion, fecha, hora
 	FROM public."Citas";`;
     let respuesta = await _servicio.executeSQL(sql);
     return respuesta
@@ -20,14 +20,27 @@ async consultarCitas()  {
 
 /**
  * @description Consulta una cita en específico en la base de datos.
- * @param {int} id_cita
+ * @param {int} id_paciente
  * @returns
  */
-async consultarCita(id_cita){   
-    let sql = `SELECT nombre_cliente, veterinario, descripcion
-    FROM public."Citas" where id_cita=$1;`;
+async consultarCitaPorPaciente(id_paciente){   
+    let sql = `SELECT id_cita, id_paciente, id_prestadorservicios, descripcion, fecha, hora
+	FROM public."Citas"where id_paciente=$1;`;
       
-    let respuesta = await _servicio.executeSQL(sql, [id_cita]);
+    let respuesta = await _servicio.executeSQL(sql, [id_paciente]);
+    return respuesta;
+  };
+
+  /**
+ * @description Consulta una cita en específico en la base de datos.
+ * @param {int} id_prestadorservicios
+ * @returns
+ */
+async consultarCitaPorPrestadorDeServicios(id_prestadorservicios){   
+    let sql = `SELECT id_cita, id_paciente, id_prestadorservicios, descripcion, fecha, hora
+	FROM public."Citas" where id_prestadorservicios=$1;`;
+      
+    let respuesta = await _servicio.executeSQL(sql, [id_prestadorservicios]);
     return respuesta;
   };
   
@@ -38,9 +51,9 @@ async consultarCita(id_cita){
  * @returns 
  */
 async guardarCita(cita) {
-    let sql = `INSERT INTO public."Citas"(id_cita, nombre_cliente, veterinario, descripcion)
-                VALUES ($1, $2, $3, $4);`;
-    let valores = [cita.id_cita, cita.nombre_cliente,cita.veterinario,cita.descripcion];
+    let sql = `INSERT INTO public."Citas"( id_paciente, id_prestadorservicios, descripcion, fecha, hora)
+                VALUES ($1, $2, $3, $4, $5);`;
+    let valores = [cita.id_paciente,cita.id_prestadorservicios,cita.descripcion,cita.fecha,cita.hora];
     let respuesta = await _servicio.executeSQL(sql, valores);
     return respuesta
 };
@@ -53,9 +66,9 @@ async guardarCita(cita) {
  async editarCita (cita)  {
     let sql =
       `UPDATE public."Citas"
-        SET   nombre_cliente=$1, veterinario=$2, descripcion=$3
-        WHERE id_cita = $4;`;
-    let valores = [ cita.nombre_cliente,cita.veterinario,cita.descripcion,cita.id_cita];
+        SET   id_paciente=$1, id_prestadorservicios=$2, descripcion=$3, fecha=$4, hora=$5
+        WHERE id_cita = $6;`;
+    let valores = [ cita.id_paciente,cita.id_prestadorservicios,cita.descripcion,cita.fecha,cita.hora,cita.id_cita,];
      await _servicio.executeSQL(sql, valores);
    
   };
