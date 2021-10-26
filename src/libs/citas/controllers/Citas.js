@@ -20,17 +20,27 @@ class CitasController {
             ok: false,
             mensaje: 'Ingrese la información de la cita'
         };
-    }else if(!cita.nombre_cliente){
+    }else if(!cita.id_paciente){
         throw{
             ok: false,
             mensaje: 'Ingrese la información de la cita'
         };
-    }else if(!cita.veterinario){
+    }else if(!cita.id_prestadorservicios){
         throw{
             ok: false,
             mensaje: 'Ingrese la información de la cita'
         };
     }else if(!cita.descripcion){
+        throw{
+            ok: false,
+            mensaje: 'Ingrese la información de la cita'
+        };
+    }else if(!cita.fecha){
+        throw{
+            ok: false,
+            mensaje: 'Ingrese la información de la cita'
+        };
+    }else if(!cita.hora){
         throw{
             ok: false,
             mensaje: 'Ingrese la información de la cita'
@@ -50,11 +60,11 @@ class CitasController {
 
 /**
   * @description Se consulta una cita en especifico 
-  * @param {Object} id_cita 
+  * @param {Object} id_paciente 
   */
 
-    async consultarCita(id_cita){
-        let resp = await _citasDAO.consultarCita(id_cita);
+    async consultarCitaPorPaciente(id_paciente){
+        let resp = await _citasDAO.consultarCitaPorPaciente(id_paciente);
         switch (resp.rowCount ) {      
             case 0:               
                throw 'Elemento no encontrado';
@@ -63,6 +73,20 @@ class CitasController {
         }
     }
 
+ /**
+  * @description Se consulta una cita en especifico 
+  * @param {Object} id_prestadorservicios
+  */
+
+     async consultarCitaPorPrestadorDeServicios(id_prestadorservicios){
+        let resp = await _citasDAO.consultarCitaPorPrestadorDeServicios(id_prestadorservicios);
+        switch (resp.rowCount ) {      
+            case 0:               
+               throw 'Elemento no encontrado';
+            case 1:
+                return resp.rows;
+        }
+    }
 /**
   * @description Se crea una cita con su respectiva información
   * @param {Object} cita 
