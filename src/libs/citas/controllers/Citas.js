@@ -1,4 +1,4 @@
-const {CitasDAO} = require('../DAO/citas'); 
+const {CitasDAO} = require('../DAO/Citas'); 
 const _citasDAO = new CitasDAO;
 
 
