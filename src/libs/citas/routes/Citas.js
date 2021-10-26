@@ -23,14 +23,30 @@ const _citasController = new CitasController;
  
 /**
  * Petición: Traer una cita específico
- * Parámetros: id_Cita
+ * Parámetros: id_paciente
  * Cuerpo: Vacío
  * Respuesta: Cita consultado o mensaje de error
  */
- router.get('/citas/:id_cita', async (req, res) => {
-    let id_cita = req.params.id_cita;
+ router.get('/citas/citaspaciente/:id_paciente', async (req, res) => {
+    let id_paciente = req.params.id_paciente;
     try {
-       let resp = await _citasController.consultarCita(id_cita);
+       let resp = await _citasController.consultarCitaPorPaciente(id_paciente);
+        success(req, res, 'citas', resp, 200);
+    } catch (error) {
+        errorResponse(req, res, 'ERROR', error);
+    }
+});
+
+/**
+ * Petición: Traer una cita específico
+ * Parámetros: id_prestadorservicios
+ * Cuerpo: Vacío
+ * Respuesta: Cita consultado o mensaje de error
+ */
+ router.get('/citas/citaprestadorservicios/:id_prestadorservicios', async (req, res) => {
+    let id_prestadorservicios = req.params.id_prestadorservicios;
+    try {
+       let resp = await _citasController.consultarCitaPorPrestadorDeServicios(id_prestadorservicios);
         success(req, res, 'citas', resp, 200);
     } catch (error) {
         errorResponse(req, res, 'ERROR', error);
